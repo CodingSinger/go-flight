@@ -45,6 +45,22 @@ func (self MongoClient) insert(obj interface{},database string,collection string
 
 }
 
+
+func (self MongoClient) FindFlightById(fid string,database string,collection string)([]Flight,error){
+	self.session = self.initSession()
+
+	c := self.session.DB(database).C(collection)
+
+	var result []Flight
+
+	err := c.Find(bson.M{"fid":fid}).All(&result)
+
+	return result,err
+
+
+
+
+}
 func (self MongoClient) FindFlights(queryStr string,database string,collection string) []Flight{
 
 
@@ -94,26 +110,58 @@ func (self MongoClient) FindFlights(queryStr string,database string,collection s
 }
 
 
-func (self MongoClient)updateTickets(flightId string,database string,collection string,opType int) int{
+func (self MongoClient)updateTickets(flightId string,time time.Time,database string,collection string,opType int) error {
 
 	self.session = self.initSession()
 	c := self.session.DB(database).C(collection)
 
 	var temp string
-	if opType == 1{
-		temp = "SellTickets"
-	}else{
+	if opType == 1 {
+		temp = "selltickets"
+	} else {
 
-		temp = "BookTickets"
+		temp = "booktickets"
 	}
-	err := c.Update(bson.M{"Fid":flightId},bson.M{"$inc":bson.M{"Remainer":-1,temp:1}})
+	err := c.Update(bson.M{"fid": flightId,"time":time}, bson.M{"$inc": bson.M{"remainer": -1, temp: 1}})
+	return err
+}
+func (self MongoClient) queryPassengers(flightId string,database string,collection string)([]Passenger,error){
+	self.session = self.initSession()
 
-	if err != nil{
-		return 1
-	}
-	return 0
+
+	// Optional. Switch the session to a monotonic behavior.
+
+
+	c := self.session.DB(database).C(collection)
+
+	var passengers []Passenger
+
+	err := c.Find(bson.M{"flightid":flightId}).All(&passengers)
+
+	return passengers,err
+
+
+
+
 }
 
+
+func (self MongoClient) queryGuest(username string,database string,collection string) (Guest,error){
+
+	self.session = self.initSession()
+
+
+	// Optional. Switch the session to a monotonic behavior.
+
+
+	c := self.session.DB(database).C(collection)
+
+
+	var r Guest
+	err := c.Find(bson.M{"username":username}).One(&r)
+
+	return r,err
+}
 
 func (self MongoClient) CloseClient(){
 	self.session.Close()

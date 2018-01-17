@@ -6,6 +6,8 @@ import (
 
 	"time"
 	"testing"
+
+	"strconv"
 )
 
 
@@ -20,6 +22,25 @@ func maisn() {
 	for _,e := range f {
 		fmt.Println(e)
 	}
+}
+
+func Test2(t *testing.T) {
+
+
+
+	fmt.Println( strconv.Itoa(34355100))
+
+
+
+	s := "按时函数"
+
+	fmt.Print(s[0:1])
+
+	s3 := []rune(s)
+	fmt.Println(string(s3[0:1]))
+
+	s2 := "sadsds"
+	fmt.Println(s2[0:3])
 }
 
 func Test_findByPk(ts *testing.T){

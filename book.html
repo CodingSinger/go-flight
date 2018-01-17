@@ -32,7 +32,7 @@
             <!-- COMPANY LOGO -->
 
 
-
+            <label style="    left: 550px;width: 300px;position: relative;font-size: 30px;font-family: cursive;">民航售票管理系统</label>
 
 
             <!-- /COMPANY LOGO -->
@@ -119,7 +119,7 @@
                     </a>
                 </li>
 
-                <li><a class="" href="inbox.html"><i class="fa fa-envelope-o fa-fw"></i> <span class="menu-text">订票系统</span></a></li>
+                <li><a class="" href="book.html"><i class="fa fa-envelope-o fa-fw"></i> <span class="menu-text">订票系统</span></a></li>
 
                 <li><a class="" href="widgets_box.html"><i class="fa fa-th-large fa-fw"></i> <span class="menu-text">查询系统</span></a></li>
 
@@ -185,9 +185,9 @@
 
 
         <!-- begin -->
-        <div class="modal fade" id="buy-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="opacity: 0.9">
+        <div class="modal fade" id="book-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="opacity: 0.9">
             <div class="modal-dialog">
-                <div class="modal-content">
+                <div class="modal-content" style="height: 500px">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title">填写资料</h4>
@@ -197,37 +197,42 @@
                         <div class="container">
                             <div class="row clearfix">
                                 <div class="col-md-12 column">
-                                    <form class="form-horizontal" role="form">
+                                    <form class="form-horizontal" role="form" style="left:60px;position: relative">
+                                        <div class="form-group">
+
+                                            <label class="col-sm-2 control-label">航班信息:</label>
+                                            <label class="descrip col-sm-2 control-label" style="width: 300px;font-size: 20px;left: -10px;font-family: cursive;"></label>
+                                        </div>
                                         <div class="form-group">
                                             <label for="firstname" class="col-sm-2 control-label">乘客姓名 </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="departure" placeholder="北京">
+                                                <input type="text" class="form-control" id="realname">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">乘客证件号 </label>
+                                            <label for="lastname" class="col-sm-2 control-label">证件号 </label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="destination" placeholder="北京">
+                                                <input type="text" class="form-control" id="cardnum">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">出发日期 </label>
+                                            <label for="lastname" class="col-sm-2 control-label">航班日期 </label>
                                             <div class="col-sm-10">
-                                                <input type="date" id="flytime" class="form-control">
+                                                <input type="date" disabled="disabled" id="flytime2" class="form-control">
 
                                             </div>
 
                                         </div>
+                                        <div class="form-group">
+                                            <button type="button" class="confirmbook btn-danger" style="position: absolute; width:200px;left: 25%;height:50px ">现在预定</button>
 
+
+                                        </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <button type="button" class="searchb btn btn-danger" style="position: absolute; width:286px;left: 20%">搜索</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-                        </div>
                     </div>
                 </div>
             </div>
@@ -326,7 +331,7 @@
                                             <td>-</td>
                                             <td>-</td>
                                             <td>U</td>
-                                            <td><button>购买</button></td>
+                                            <td><button>预定</button></td>
                                         </tr>
                                         </tbody>
 
@@ -381,38 +386,48 @@
         $(".config").click();
 
         var ddd = new Date();
-        var day =ddd.getDate();
-
-        if(ddd.getMonth()<10){
-            var month = "0"+(ddd.getMonth()+1);
-        }
-
-        if(ddd.getDate()<10){
-            day = "0"+ddd.getDate();
-        }
-
-        var datew = ddd.getFullYear()+"-"+month+"-"+day;
-        var datew = datew.toString();
-
+        var datew = dateFormat(ddd);
 
 
         $("#flytime").val(datew);
-        window.onload = init;
-        function init() {
-            var trs =document.getElementsByTagName('tr');
-            for (var i = 0; i < trs.length; i++)
-                trs[i].ondblclick = doclick;
-        }//获取tr节点，并循环卫每个tr节点添加双击事件
-        function doclick() {
-            alert(this.innerHTML);
 
-            $(this).css('background-color','red');
-        }
         App.setPage("dynamic_table");  //Set current page
         App.init(); //Initialise plugins and elements
     });
 
 
+    $(".confirmbook").click (function () {
+
+
+
+        var name = $("#realname").val();
+        var card = $("#cardnum").val();
+
+        var fid = sessionStorage.getItem("fid");
+        var time2 = $("#flytime").val()
+
+
+        var info = {}
+        info.Username = name;
+        info.CardNum = card;
+        info.OpType = 2;
+
+        info.FlightId = fid;
+        var js = JSON.stringify(info);
+        $.get("http://localhost:9090/fly/book",{
+            "passenger":js,
+            "time":time2
+        },function(data,textStatus,xhr) {
+
+            if(data.State == 0){
+                alert("预定成功");
+
+            }else{
+                alert("错误！稍后再试");
+            }
+
+        });
+    });
 
 
     $(".searchb").on("click",function (){
@@ -441,9 +456,10 @@
           'queryStr':jsonStr
         },function(data,textStatus,xhr) {
 
-            alert(data);
+
             var ele = $(".tb");
-            parseJson(data, ele,$("#buy-config"));
+            parseJson(data, ele,$("#book-config"),"预定");
+            $("#box-config").modal("hide");
         });
 
     }

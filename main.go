@@ -3,8 +3,7 @@ package main
 import (
 	"net/http"
 	"log"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+
 	"encoding/json"
 
 	"time"
@@ -21,29 +20,40 @@ var errStatus Response = Response{
 func bookTickets(w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
 
-	params := r.Form["map"][0]
+	params := r.Form["passenger"][0]
+
+	t2 := r.Form["time"][0]
 	var byt = make([]byte, 0)
 	if params != "" {
 		byt = []byte(params)
 	}
 	p := Passenger{}
-	json.Unmarshal(byt,&params)
+	json.Unmarshal(byt,&p)
 	t := time.Now().Format("2016-01-02")
 	p.Time,_ = time.Parse("2016-01-02",t)
 
 	mongo := MongoClient{
 		MongoUrl:mongoUrl,
 	}
-	defer mongo.CloseClient()
+
 	state := mongo.insert(p,database,passengerCollection)
-	mongo.updateTickets(p.FlightId,database,flightCollection,2)
 	response := Response{
 		State:state,
 	}
 
+	flytime,_ := time.Parse("2006-01-02",t2)
+	err := mongo.updateTickets(p.FlightId,flytime,database,flightCollection,2)
+
+	if err != nil{
+		log.Fatal(nil)
+		response.State = 1
+	}
+
+
 	js,_ := json.Marshal(response)
 
 	ResponseWithJSON(w,js,200)
+
 
 
 
@@ -55,22 +65,28 @@ func buyTickets(w http.ResponseWriter, r *http.Request){
 	r.ParseForm()
 
 	params := r.Form["passenger"][0]
+	t2 := r.Form["time"][0]
+
+
+
 	var byt = make([]byte, 0)
 	if params != "" {
 		byt = []byte(params)
 	}
 	p := Passenger{}
 	json.Unmarshal(byt,&p)
+	//预定时间
 	t := time.Now().Format("2006-01-02")
 	p.Time,_ = time.Parse("2006-01-02",t)
 
 	mongo := MongoClient{
 		MongoUrl:mongoUrl,
 	}
-	defer mongo.CloseClient()
+
 	state := mongo.insert(p,database,passengerCollection)
 
-	mongo.updateTickets(p.FlightId,database,flightCollection,1)
+	flytime,_ := time.Parse("2006-01-02",t2)
+	mongo.updateTickets(p.FlightId,flytime,database,flightCollection,1)
 	response := Response{
 		State:state,
 	}
@@ -84,19 +100,50 @@ func buyTickets(w http.ResponseWriter, r *http.Request){
 
 
 }
+
+
+
 func queryData(w http.ResponseWriter,r *http.Request){
 	r.ParseForm()
 
 
-	queryStr := r.Form["queryStr"][0]
+
+
+	queryType := r.Form["type"]
+
+
+
+
 
 	mongo := MongoClient{
 		MongoUrl:mongoUrl,
 	}
-	//defer 	mongo.CloseClient()
+
+
 	var f []Flight
 
-	f = mongo.FindFlights(queryStr,database,flightCollection)
+	if len(queryType) != 0 &&queryType[0]== "num"  {
+
+		//按航班号查询
+		fid := r.Form["fid"][0]
+
+
+		var erro error
+		f,erro = mongo.FindFlightById(fid,database,flightCollection)
+
+		if erro != nil{
+			log.Fatal(erro)
+
+		}
+
+
+
+
+
+	}else{
+		queryStr := r.Form["queryStr"][0]
+		f = mongo.FindFlights(queryStr,database,flightCollection)
+	}
 
 	response := Response{}
 
@@ -119,6 +166,43 @@ func queryData(w http.ResponseWriter,r *http.Request){
 
 }
 
+
+func queryPassengers(w http.ResponseWriter,r *http.Request){
+	r.ParseForm()
+	fid := r.Form["fid"][0]
+	mongo := MongoClient{
+		MongoUrl:mongoUrl,
+	}
+
+	state := Response{
+		State:0,
+	}
+	result,err := mongo.queryPassengers(fid,database,passengerCollection)
+
+
+	state.Include = result
+	if err != nil{
+		log.Fatal(err)
+		state.State = 1
+	}
+
+
+
+
+	s,err := json.Marshal(state)
+	if err != nil {
+		log.Fatal(err)
+		state.State = 1
+	}
+	ResponseWithJSON(w,s,200)
+
+
+
+
+}
+
+var guestCollection string = "admin"
+
 func login(w http.ResponseWriter,r *http.Request){
 
 
@@ -131,20 +215,13 @@ func login(w http.ResponseWriter,r *http.Request){
 
 
 
-	session, err := mgo.Dial("localhost:27017")
-	if err != nil {
-		panic(err)
+
+	mongo := MongoClient{
+		MongoUrl:mongoUrl,
 	}
-	defer session.Close()
-
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
-
-	c := session.DB("test").C("people")
-
 	state := Response{}
-	result := Guest{}
-	err = c.Find(bson.M{"name": username}).One(&result)
+	result,err := mongo.queryGuest(username,database,guestCollection)
+
 
 	if err != nil {
 
@@ -155,7 +232,7 @@ func login(w http.ResponseWriter,r *http.Request){
 		state.State = 0
 
 	}else{
-		state.State = 1
+		state.State = 2
 	}
 
 	s,err := json.Marshal(state)
@@ -185,6 +262,9 @@ func main(){
 	http.HandleFunc("/fly/query",queryData)
 
 	http.HandleFunc("/fly/buy",buyTickets)
+
+	http.HandleFunc("/fly/book",bookTickets)
+	http.HandleFunc("/fly/queryPassengers",queryPassengers)
 
 	err := http.ListenAndServe(":9090",nil)
 	if err != nil{

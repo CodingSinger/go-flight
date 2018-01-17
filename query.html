@@ -17,9 +17,10 @@
     <!-- DATE RANGE PICKER -->
     <link rel="stylesheet" type="text/css" href="js/bootstrap-daterangepicker/daterangepicker-bs3.css" />
     <!-- TODO -->
+
     <link rel="stylesheet" type="text/css" href="js/jquery-todo/css/styles.css" />
     <!-- FULL CALENDAR -->
-    <link rel="stylesheet" type="text/css" href="js/fullcalendar/fullcalendar.min.css" />
+
     <!-- GRITTER -->
     <link rel="stylesheet" type="text/css" href="js/gritter/css/jquery.gritter.css" />
 
@@ -30,6 +31,7 @@
     <div class="container">
         <div class="navbar-brand">
             <!-- COMPANY LOGO -->
+
 
             <label style="    left: 550px;width: 300px;position: relative;font-size: 30px;font-family: cursive;">民航售票管理系统</label>
 
@@ -132,114 +134,10 @@
     </div>
     <!-- /SIDEBAR -->
     <div id="main-content">
-        <!-- SAMPLE BOX CONFIGURATION MODAL FORM-->
-        <div class="modal fade" id="box-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="opacity: 0.9">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">搜索航班</h4>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="container">
-                            <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    <form class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label for="firstname" class="col-sm-2 control-label">出发城市 </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="departure" placeholder="北京">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">目的城市 </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="destination" placeholder="北京">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">出发日期 </label>
-                                            <div class="col-sm-10">
-                                                <input type="date" id="flytime" class="form-control">
-
-                                            </div>
-
-                                        </div>
-
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <button type="button" class="searchb btn btn-danger" style="position: absolute; width:286px;left: 20%">搜索</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
 
-        <!-- begin -->
-        <div class="modal fade" id="buy-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="opacity: 0.9">
-            <div class="modal-dialog">
-                <div class="modal-content" style="height: 500px">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">填写资料</h4>
-                    </div>
-
-                    <div class="modal-footer">
-                        <div class="container">
-                            <div class="row clearfix">
-                                <div class="col-md-12 column">
-                                    <form class="form-horizontal" role="form" style="left:60px;position: relative">
-
-
-                                        <div class="form-group">
-
-                                            <label class="col-sm-2 control-label">航班信息:</label>
-                                            <label class="descrip col-sm-2 control-label" style="width: 300px;font-size: 20px;left: -10px;font-family: cursive;"></label>
-                                        </div>
-                                        <div class="form-group">
-
-                                            <label for="firstname" class="name col-sm-2 control-label">乘客姓名 </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="realname">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">证件号 </label>
-                                            <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="cardnum">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="lastname" class="col-sm-2 control-label">出发日期 </label>
-                                            <div class="col-sm-10">
-                                                <input type="date"  disabled="disabled" id="flytime2" class="form-control">
-
-                                            </div>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="button" class="confirmbuy btn-danger" style="position: absolute; width:200px;left: 20%;height:50px ">确定购买</button>
-
-
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <!-- end -->
         <!-- /SAMPLE BOX CONFIGURATION MODAL FORM-->
@@ -271,6 +169,60 @@
                             </div>
                         </div>
                     </div>
+
+
+
+
+
+                    <div style="
+                            border: 1px solid;
+                            border-color: green;
+                            background-color: steelblue;position: relative;margin: 10px"
+                    >
+
+                        <form class="form-inline" role=form name=form1>
+                            <select class="searchtype">
+                                <option value="0" selected>按起降地
+                                <option value="1" selected>按航班号
+                            </select>
+
+                            <div class="form-group num" style="position: relative;left: 100px;">
+
+                                <label>航班号</label>
+                                <input type="text" class="fid" >
+
+                            </div>
+                            <div class="form-group area" style="display:none">
+                                <label for="name">出发城市</label>
+                                <select name="selectp" onChange="selectcityarea('selectp','selectc','form1');">
+                                    <option value="0" selected>省份--</option>
+                                </select>
+                                <select class="departure" name="selectc">
+                                    <option value="0" selected>城市--</option>
+                                </select>
+                                <label>目的城市</label>
+                                <select name="selectp2" onChange="selectcityarea('selectp2','selectc2','form1');">
+                                    <option value="0" selected>省份--</option>
+                                </select>
+                                <select class="destination" name="selectc2">
+                                    <option value="0" selected>城市--</option>
+                                </select>
+
+                                <input id="flytime" type="date">
+
+                            </div>
+                            <div class="form-group">
+
+                                <button type="button" class="typesearch btn btn-default" style="position: relative;margin-left: 400px;">查询</button>
+                            </div>
+                        </form>
+                    </div>
+
+
+
+
+
+
                     <!-- /PAGE HEADER -->
                     <div class="table">
                         <div class="col-md-12">
@@ -304,10 +256,64 @@
                                             <th>航班时间</th>
                                             <th class="hidden-xs">剩余座位</th>
                                             <th>价格</th>
-                                            <th width="8%">操作</th>
+                                            <th width="10%">操作</th>
                                         </tr>
                                         </thead>
                                         <tbody class="tb">
+
+
+                                        </tbody>
+
+
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /BOX -->
+                        </div>
+                    </div>
+                    <!-- /DATA TABLES -->
+
+
+
+
+
+                    <!-- 乘客信息 -->
+                    <div class="table passenger" style="display: none">
+                        <div class="col-md-12">
+                            <!-- BOX -->
+                            <div class="box border green">
+                                <div class="box-title">
+                                    <h4><i class="fa fa-table"></i>乘客信息</h4>
+                                    <div class="tools hidden-xs">
+                                        <a href="#box2-config" data-toggle="modal" class="config">
+                                            <i class="fa fa-cog"></i>
+                                        </a>
+                                        <a href="javascript:;" class="reload">
+                                            <i class="fa fa-refresh"></i>
+                                        </a>
+                                        <a href="javascript:;" class="collapse">
+                                            <i class="fa fa-chevron-up"></i>
+                                        </a>
+                                        <a href="javascript:;" class="remove">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+                                    <table id="datatable2" cellpadding="0" cellspacing="0" border="0" class="datatable table  table-bordered table-hover">
+                                        <thead>
+                                        <tr>
+
+                                            <th>航班号</th>
+                                            <th>出发地</th>
+                                            <th class="hidden-xs">目的地</th>
+                                            <th>航班时间</th>
+                                            <th class="hidden-xs">剩余座位</th>
+                                            <th>价格</th>
+                                            <th width="10%">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="tb2">
 
                                         <tr class="gradeA">
                                             <td>Presto</td>
@@ -316,7 +322,7 @@
                                             <td class="hidden-xs">Win 95+ / OSX.2+</td>
                                             <td class="center">-</td>
                                             <td class="center hidden-xs">A</td>
-                                            <td><button class="">购买</button></td>
+                                            <td><button class="">乘客信息</button></td>
                                         </tr>
                                         <tr class="gradeA">
                                             <td>Presto</td>
@@ -325,7 +331,7 @@
                                             <td class="hidden-xs">Win 95+ / OSX.2+</td>
                                             <td class="center">-</td>
                                             <td class="center hidden-xs">A</td>
-                                            <td><button>购买</button></td>
+                                            <td><button>乘客信息</button></td>
                                         </tr>
                                         <tr>
                                             <td>北京</td>
@@ -334,7 +340,7 @@
                                             <td>-</td>
                                             <td>-</td>
                                             <td>U</td>
-                                            <td><button>购买</button></td>
+                                            <td><button>乘客信息</button></td>
                                         </tr>
                                         </tbody>
 
@@ -346,6 +352,11 @@
                         </div>
                     </div>
                     <!-- /DATA TABLES -->
+
+
+
+
+
                 </div>
 
 
@@ -380,17 +391,33 @@
 <script type="text/javascript" src="js/datatables/media/assets/js/datatables.min.js"></script>
 <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/TableTools.min.js"></script>
 <script type="text/javascript" src="js/datatables/extras/TableTools/media/js/ZeroClipboard.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-onhover/twitter-bootstrap-hover-dropdown.min.js"></script>
 <!-- COOKIE -->
 <script type="text/javascript" src="js/jQuery-Cookie/jquery.cookie.min.js"></script>
 <!-- CUSTOM SCRIPT -->
+
 <script src="js/script.js"></script>
 <script>
+
+
     jQuery(document).ready(function() {
-        $(".config").click();
+        first("selectp","selectc","form1",0,0);
+        first("selectp2","selectc2","form1",0,0);
 
         var ddd = new Date();
+        var day =ddd.getDate();
 
-        var datew = dateFormat(ddd);
+        if(ddd.getMonth()<10){
+            var month = "0"+(ddd.getMonth()+1);
+        }
+
+        if(ddd.getDate()<10){
+            day = "0"+ddd.getDate();
+        }
+
+        var datew = ddd.getFullYear()+"-"+month+"-"+day;
+        var datew = datew.toString();
+
 
 
         $("#flytime").val(datew);
@@ -400,72 +427,80 @@
     });
 
 
-    $(".confirmbuy").click (function () {
 
 
 
-        var name = $("#realname").val();
-        var card = $("#cardnum").val();
-        var time2 = $("#flytime").val()
+    $(".searchtype").change(function () {
 
-        var fid = sessionStorage.getItem("fid");
-        var info = {}
-        info.Username = name;
-        info.CardNum = card;
-        info.OpType = 1;
+        var val = $(this).val()
 
-        info.FlightId = fid;
-        var js = JSON.stringify(info);
-        $.get("http://localhost:9090/fly/buy",{
-            "passenger":js,
-            "time":time2
-        },function(data,textStatus,xhr) {
-
-            if(data.State == 0){
-                alert("购买成功");
-
-            }else{
-                alert("错误！稍后再试");
-            }
-
-        });
+        if(val == 1){
+            $(".num").show();
+            $(".area").hide();
+            sessionStorage.setItem("searchtype","num");
+        }else{
+            $(".num").hide();
+            $(".area").show();
+            sessionStorage.setItem("searchtype","area");
+        }
     });
+    $(".typesearch").on("click",function (){
 
 
-    $(".searchb").on("click",function (){
-
-        var departure = $("#departure").val();
-        var destination = $("#destination").val();
-        var time = $("#flytime").val()
-
-        var query = {}
+        var type = sessionStorage.getItem("searchtype");
 
 
 
-                if(destination != "")
-                    query.destination = destination
+
+        var fid = $(".fid").val()
 
 
-                if(departure != "")
-                    query.departure = departure
+        var jsonStr = "";
 
-                query.time = time;
+        if(type == "area"){
+            var destination = $(".destination").find("option:selected").text()
+            var departure = $(".departure").find("option:selected").text()
+
+
+            var time = $("#flytime").val()
+
+            var query = {}
 
 
 
-        var jsonStr = JSON.stringify(query)
+            if(destination != "城市--")
+                query.destination = destination
+
+
+            if(departure != "城市--")
+                query.departure = departure
+
+            query.time = time;
+
+            jsonStr = JSON.stringify(query);
+
+        }
+
+
+
+
         $.get("http://localhost:9090/fly/query",{
-          'queryStr':jsonStr
+
+            'fid':fid,
+            'type':type,
+            'queryStr':jsonStr
         },function(data,textStatus,xhr) {
 
-            if(data.Include == null){
 
-                alert("无数据");
+
+
+            if(data.State == 0&&data.Include == null){
+                alert("没有符合条件的航班");
                 return;
             }
-            var ele = $(".tb");
-            parseJson(data, ele,$("#buy-config"),"购买");
-            $("#box-config").modal("hide");
+
+
+            parseJson2(data,$(".tb"),$(".tb2"));
         });
 
     }
